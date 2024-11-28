@@ -39,10 +39,10 @@ function shouldPrependSpace() {
   try {
     if (shell?.endsWith("zsh")) {
       // Check for histignorespace in zsh
-        const result = child_process
-          .execSync("/bin/zsh -c 'source ~/.zshrc; setopt'")
-          .toString();
-        return result.includes("histignorespace");
+      const result = child_process
+        .execSync("/bin/zsh -c 'source ~/.zshrc; setopt'")
+        .toString();
+      return result.includes("histignorespace");
     } else if (shell?.endsWith("bash")) {
       // Check if HISTCONTROL includes ignorespace in bash
       const result = child_process
@@ -83,8 +83,15 @@ async function newLazygitInstance() {
   );
 
   if (vscode.window.terminals.length > 1) {
-    // Close the terminal if it's not the only one
-    await vscode.commands.executeCommand("workbench.action.togglePanel");
+    const config = vscode.workspace.getConfiguration("lazygit");
+    const closeTerminalOnMultiple = config.get<boolean>(
+      "closeTerminalOnMultiple",
+      false
+    );
+    if (closeTerminalOnMultiple) {
+      // Close the terminal if the option is enabled
+      await vscode.commands.executeCommand("workbench.action.togglePanel");
+    }
   }
 }
 

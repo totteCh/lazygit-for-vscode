@@ -31,7 +31,17 @@
         "mac": "cmd+g g",
         "linux": "ctrl+g g"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "lazygit.closeTerminalOnMultiple": {
+          "type": "boolean",
+          "default": false,
+          "description": "Close the terminal if it's not the only one."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -40,6 +50,7 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
     "deploy": "vsce publish"
   },
   "devDependencies": {
